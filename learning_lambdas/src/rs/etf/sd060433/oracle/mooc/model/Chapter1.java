@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package rs.etf.sd060433.model;
+package rs.etf.sd060433.oracle.mooc.model;
 
 import java.util.List;
 import java.util.stream.Collectors;

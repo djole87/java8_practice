@@ -1,4 +1,4 @@
-package rs.etf.sd060433.model;
+package rs.etf.sd060433.oracle.mooc.model;
 
 import static java.util.Arrays.asList;
 

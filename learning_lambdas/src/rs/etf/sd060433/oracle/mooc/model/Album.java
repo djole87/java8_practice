@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package rs.etf.sd060433.model;
+package rs.etf.sd060433.oracle.mooc.model;
 
 import static java.util.Collections.unmodifiableList;
 import static java.util.stream.Collectors.toList;
