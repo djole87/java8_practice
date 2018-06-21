@@ -2,7 +2,7 @@ package rs.etf.sd060433.oracle.mooc.lesson3;
 
 import java.util.List;
 
-import rs.etf.sd060433.model.Artist;
+import rs.etf.sd060433.oracle.mooc.model.Artist;
 
 public class Chapter3_Question2 {
 	

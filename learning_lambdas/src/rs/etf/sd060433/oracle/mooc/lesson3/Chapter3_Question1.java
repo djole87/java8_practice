@@ -5,8 +5,8 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import rs.etf.sd060433.model.Album;
-import rs.etf.sd060433.model.Artist;
+import rs.etf.sd060433.oracle.mooc.model.Album;
+import rs.etf.sd060433.oracle.mooc.model.Artist;
 
 public class Chapter3_Question1 {
 	
