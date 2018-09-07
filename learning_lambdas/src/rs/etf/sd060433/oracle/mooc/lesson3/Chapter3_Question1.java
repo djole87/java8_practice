@@ -1,4 +1,4 @@
-package rs.etf.sd060433;
+package rs.etf.sd060433.oracle.mooc.lesson3;
 
 import static java.util.stream.Collectors.toList;
 
