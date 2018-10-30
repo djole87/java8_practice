@@ -1,8 +1,10 @@
 package rs.etf.sd060433.oracle.mooc.lesson1;
 
-import java.sql.SQLOutput;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Lesson {
 
