@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * values for each thread independently. Therefore, the value stored in a
  * ThreadLocal instance is specific (local) to the current running Thread, any
  * other code logic running on the same thread will see the same value, but not
- * the values set on the same instance by oth- er threads. (There are
+ * the values set on the same instance by other threads. (There are
  * exceptions, like InhertiableThreadLocal, which inherits parent thread’s
  * values by default.)
  * 
@@ -47,17 +47,14 @@ public class TransactionManager {
 
 class TransactionRunner implements Runnable {
 	private static final AtomicInteger nextId = new AtomicInteger(0);
-
-	String threadName = "Thread " + nextId.getAndIncrement();
+	private String threadName = "Thread " + nextId.getAndIncrement();
 
 	@Override
 	public void run() {
 		System.out.println(threadName + " is started");
-
 		TransactionManager.startTransaction(threadName);
 
 		System.out.println(threadName + " " + TransactionManager.getTransactrionId());
-		
 		TransactionManager.endTransaction();
 	}
 
