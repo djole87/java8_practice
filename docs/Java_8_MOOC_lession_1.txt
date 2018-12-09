@@ -1,0 +1,110 @@
+Java 8 MOOC Lession 1
+
+Lesson 1.1: Why does Java needs Lambda Expressions?
+
+  JSR - Java Specification Request
+  Java 6 - Phasers for concurrent development
+  Java 7 - Fork/join framework
+  Java 8 - Lambdas and Streams
+    - Lambdas are thread safe - client logic is stateless
+    - Lambda expressions simplify how to pass behavior as a parameter to a method
+
+Lesson 1.2: Lambda Expression syntax
+
+  Lambda Expressions are like methods but are not really methods.
+  Lambdas are like methods that are associated with the interface but without class (Anonymous function).
+  (parameters) -> {lambda-body}
+  Type inference - compiler is now smarter
+    - This means that types often do not need to be explicitly stated
+
+Lesson 1.3: Functional Interfaces and their definition
+
+  A lambda expression can be used wherever the type is a functional interface
+    - This is interface with single abstract method.
+    - The Lambda expressions provides the implementation of the abstract method
+    - Interface can contain default methods with it's implementation
+    - Interface can contain static methods as well
+    - @FunctionalInterface annotation is used
+    - Functional interface can contain hashCode and equals because they are inherited from object
+
+  Lambda expression can be assigned to a variable or we can use it as a parameter to a method
+    - as a variable
+      Callable c = () -> process();
+    - as a parameter
+      new Thread( () -> process()).start();
+
+Lesson 1.4: Functional interfaces in the java.util.function package
+
+  Used Extensively in Streams, but also in many other places
+
+  Consumer<T>
+    - takes a single value and returns no result
+    - BiConsumer<U, T> takes a two values and return no result
+    - andThen(Consumer after) - available for composing functions
+  Supplier<T>
+    - A supplier of the result (doesn't take any parameters and returns the result)
+  Function<T,R>
+    - A function that accepts one argument (T) and return result (R)
+    - BiFunction<U, T, R> accepts two arguments (U, V) and return result (R)
+    - default methods compose() and andThen()
+  UnaryOperator<T>
+    - Specialized form of Function
+    - Takes one argument and return result of the same type
+  BinaryOperator<T>
+    - Specialized form of BiFunction
+    - Takes two arguments and return the result. All of the parameters and the result are of the same type<T>
+  Predicate<T>
+   - Takes one argument and return Boolean result
+   - BiPredicate, takes two arguments and return Boolean result
+   - useful default and static methods used for combinations (and(), or(), negate(), isEqual())
+
+ Lesson 1.5: Method and constructor references
+
+    Method references let us reuse method as lambda expression
+     - Format target_reference::method_name
+       E.g.
+          FileFilter x = (File f) -> f.canRead()
+          FileFilter x = File::canRead - (method reference)
+    There are three kinds of method references:
+      - Static Methods
+        e.g. (args) -> ClassName.staticMethod(args) == ClassName::staticMethod
+      - Instance method of an arbitrary type
+        (args0, rest) -> arg0.instanceMethod(rest) == ClassNameOfarg0::instanceMethod
+      - Instance method of an existing object
+        (args) -> expr.instanceMethod(args) == expr::instanceMethod
+
+    Constructor References follows the same concept as a method reference just for constructors
+      - E.g.
+        Factory<List<String>> f = () -> new ArrayList<String>();
+        Factory<List<String>> f = ArrayList<String>::new
+
+  Lesson 1.6: Referencing External variables in lambda expressions
+
+    Lambda expressions can refer to EFFECTIVELY FINAL local variables from the surrounding scope
+      - This is because of lambdas needs to be a thread safe, so that state will not change after call of lambda expression.
+        Effectively final variables are variables that meets the requirements for final variables,
+        even they are not explicitly defined as final
+      - Closures on values, not on variables
+      - "this" refers to the enclosing object from the surrounding scope and not the lambda itself
+      - if we want to reference instance variable inside lambda expression we can do that
+      because compiler would use 'this' to reference variable and this is effectively final - this could be problematic in multithreaded environment
+
+  Lesson 1.7: Useful new methods in JDK 8 that can use Lambdas
+
+  Iterable interface
+    - forEach(Consumer c)
+  Collection interface
+    - removeIf(Predicate p)
+  List interface
+    - replaceAll(UnaryOperator o)
+    - sort(Comparator c)
+  Logger Class
+    - finest(Supplier s)
+
+  Lambda provides behavior and not a value
+    - very useful for conditional usage of data
+
+  Lession 1 - Summary
+    - Lambda Expressions provide a simple way to pass behavior as a parameter, or assign it to a variable
+    - Lambdas can be used whenever a functional interface is used
+    - Method or Constructor references can be used as a shorthand forms
