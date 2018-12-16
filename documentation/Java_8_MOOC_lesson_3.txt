@@ -1,0 +1,176 @@
+Java 8 MOOC Lesson 3
+
+Lesson 3.1: Understanding and using Reductions
+
+Hint: read file using:
+
+    Path input = Paths.get(fileName);
+    Files.lines(input)
+      .map...
+      .filter...
+
+Problem Find the longest line in the File using reduction
+  - Don't use sort - Big files will take a long time and lot of resources
+  - Don't use state it is not thread safe
+  - Recursive solution is functional solution but can lead to OOM exception
+    in case of larger data sets (Memory occupied and Stack occupied)
+
+First Solution
+  - Stream API uses the well known pattern filter-map-reduce
+  - For the concrete problem just reduction is needed
+  - Recall the reduce method definition
+    Optional<T> reduce(BinaryOperator<T> accumulator)
+  - The key is to find right accumulator
+  - In essence reduce does the same as recursion without all stack frames
+
+  String longestLine = Files.lines(input)
+    .reduce((x, y) -> { // x is accumulator
+      if(x.length() > y.length())
+        return x;
+      return y;
+    })
+    .get();
+
+  Note: x in effect maintains state for us, by always holding the longest string found so far.
+
+Second solution
+  - Use a specialized form of max() - with Comparator as parameter
+
+    Files.lines(input)
+      .max(comparingInt(String::length))
+      .get();
+
+  Where comparingInt is static method on Comparator.
+
+  Summary:
+    - Reduction (instead of recursion) take a Stream and reduces it to a single value
+    - The way reduction works is defined by accumulator which is BinaryOperator_
+    - reduce() method maintains a partial result state
+    - Like a recursive approach, but without the resource overhead
+    - Requires you` to think differently functional instead of imperative, loop based approach
+
+Lesson 3.2: Finite and Infinite Streams
+
+   Making Infinite Stream Finite
+    - Terminate the stream when condition is met
+    - Use findFirst() or findAny() - findAny() is undeterministic
+
+   Using Infinite Streams
+    - Sometimes we need to continue to use a stream indefinitely
+    - for this we should use forEach() terminal operation
+      (consumes alement from the stream but does not terminate it)
+    - example - reading values from a serial sensor
+
+   Summary
+    - Streams can be Infinite as well as Finite
+    - There is no concept of breaking out of the stream
+    - Use the appropriate terminal operation to stop processing
+    - Or use the infinite Stream infinitely
+
+Lesson 3.3: Avoiding the use of forEach
+
+  Using Streams Effectively
+    - Avoid using loops with streams
+    - Stop thinking imperatively
+    - Use map-reduction instead
+    - Use foreach in case value from a Stream needs to be Consumed (no state being modified)
+
+  Summary
+    - when you inteneded to use forEach stop and think if it can be replace with map-reduction combination
+    - for e.g. printing values from the streadm foreach is valid way to go
+
+Lesson 3.4: Using Collectors
+
+  Collector Basics
+    - Collector (singular) performs a mutable reduction on a stream
+    - use collect() method to terminate a stream
+    - Collectors utility class has many methods that can create a Collector
+
+  Composing collectors
+    - downstrream collector - second collector to use
+
+  GroupingResults
+    - groupingBy(Function)
+        * Groups stream elements using the Function into a Map
+        * Result is Map<K, List<V>>
+        e.g.
+          Map m =  words.stream()
+                          .collect(Collectors.groupingBy(String::length))
+          List of words that matches the same word length
+
+    - groupingBy(Function, Collector)
+        * Groups stream elements using the Function
+        * Reduction is performed on each group using the downstream Collector
+        e.g.
+          Map m = words.stream()
+                        .collect(Collectors.groupingBy(String::length, counting()))
+          Number of words matches the same word length
+
+  Joining String results
+    - joining()
+      * concatenates input strings
+    - joining(delimiter)
+      * concatenates stream strings using CharSequence delimiter
+    - joining(delimiter, prefix, suffix)
+      * concatenates the prefix, streams strings separated by delimiter and suffix
+
+  NumericCollectors
+    - averagingInt(ToIntFunction)
+    - sumarizingInt(ToIntFunction)
+      * Summarises(count, sum, min, max, average)
+    - summingInt(ToIntFuunction)
+      * equivalent to map() then sum()
+    - maxBy(Comparator), minBy(Comparator)
+      * Maximum or minimum value based on Comparator
+
+  OtherCollectors
+    - reducing(BinaryOperator)
+      * equivalent Collector to reduce() terminal UnaryOperator
+      * Only use for multi-level reductions, or downstream Collectors
+    - partitioningBy(Predicate)
+      * Creates a Map<Boolean, List> containing two groups(one for true and other for false) based on Predicate
+    - mapping(Function, Collector)
+      * Adapts Collector to accept different type elements mapped by the Function
+      e.g.
+        Map<City, Set<String>> lastNameByCity = people.stream()
+                                                      .collect(groupingBy(Person::getCity),mapping(Person::getName, toSet()))
+
+  Summary
+    - Collectors provide powerful ways to gather elements of an input stream
+      * into collections
+      * in numerical ways like totals and averages
+    - Collectors can be composed to build more complex ones
+    - You can also create your own Collector (TODO: See how to do this?)
+
+
+Lesson 3.5: Parallel Streams (And when not to use them)
+
+  - Source Stream
+    * stream() - serialStream
+    * parallelStream() - parallel stream
+  - Stream can be made parallel or sequential at any point (last call wins)
+    * parallel()
+    * sequential()
+  - Calling concat() with a sequential and parallel stream will produce a parallel stream
+  - Parallel Streams are underneath implemented using fork-join framework
+  - Parallel Streams always need more work to process
+  - Considerations when to use parallel Streams
+    * Data set is important, as is the type of the structured
+      ** ArrayList - GOOD
+      ** TreeSet, HashSet - OK
+      ** LinkedList - BAD
+    * Operations are also important
+      ** filter() and map() are excellent
+      ** sorted() and distinct() do not decompose well
+    * N - size of data Q - Cost per element through the Stream pipeline
+      ** The bigger NxQ is the better a parallel stream will perform
+    * if in doubt - test and profile
+
+Lesson 3.6: Debugging Lambdas and Streams
+
+  - peek() and method References should help us debugging codePoints
+    * peek() method can print some information relevant for Debugging
+    * peek() method can be used to set break point to it
+    * external method can be used (as method reference) and break point should be set somewhere in this
+
+Lesson 3.7: Course Conclusion
