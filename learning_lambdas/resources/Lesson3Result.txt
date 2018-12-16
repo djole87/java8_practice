@@ -1,0 +1,69 @@
+List of 100 words
+---------------------
+Loaded 235886 words
+Sequential took 96ms
+Sequential took 50ms
+Sequential took 9ms
+Sequential took 8ms
+Sequential took 6ms
+Parallel took 11ms
+Parallel took 4ms
+Parallel took 5ms
+Parallel took 4ms
+Parallel took 7ms
+---------------------
+List of 500 words
+--------------------
+Loaded 235886 words
+Sequential took 345ms
+Sequential took 158ms
+Sequential took 138ms
+Sequential took 134ms
+Sequential took 131ms
+Parallel took 76ms
+Parallel took 67ms
+Parallel took 67ms
+Parallel took 64ms
+Parallel took 68m
+--------------------
+List of 1000 words
+---------------------
+Loaded 235886 words
+Sequential took 829ms
+Sequential took 546ms
+Sequential took 547ms
+Sequential took 610ms
+Sequential took 529ms
+Parallel took 248ms
+Parallel took 255ms
+Parallel took 275ms
+Parallel took 260ms
+Parallel took 398ms
+---------------------
+List of 2000 words
+---------------------
+Loaded 235886 words
+Sequential took 2333ms
+Sequential took 2113ms
+Sequential took 2103ms
+Sequential took 2087ms
+Sequential took 2100ms
+Parallel took 1165ms
+Parallel took 1029ms
+Parallel took 1131ms
+Parallel took 2672ms
+Parallel took 1408ms
+---------------------
+List of 4000 words
+---------------------
+Loaded 235886 words
+Sequential took 8554ms
+Sequential took 8850ms
+Sequential took 8673ms
+Sequential took 8612ms
+Sequential took 8353ms
+Parallel took 6155ms
+Parallel took 5883ms
+Parallel took 5479ms
+Parallel took 6215ms
+Parallel took 5313ms
